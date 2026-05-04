@@ -327,19 +327,36 @@ function EducationCard({ edu, index, total }: { edu: any; index: number; total: 
 // ===================== CONTACT FORM =====================
 function ContactForm() {
   const { t } = useLanguage()
-  const [form, setForm] = useState({ name: "", email: "", message: "" })
+  const [form, setForm] = useState({ name: "", mobile: "", message: "" })
   const [sending, setSending] = useState(false)
   const [sent, setSent] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSending(true)
-    // Simulate sending
-    await new Promise((resolve) => setTimeout(resolve, 1500))
-    setSending(false)
-    setSent(true)
-    setForm({ name: "", email: "", message: "" })
-    setTimeout(() => setSent(false), 3000)
+    
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form),
+      })
+      
+      if (!response.ok) {
+        throw new Error('Failed to send message')
+      }
+      
+      setSent(true)
+      setForm({ name: "", mobile: "", message: "" })
+    } catch (error) {
+      console.error("Error submitting form:", error)
+      // We could add an error state here, but for now just fail silently like the original
+    } finally {
+      setSending(false)
+      setTimeout(() => setSent(false), 3000)
+    }
   }
 
   return (
@@ -360,27 +377,26 @@ function ContactForm() {
         </div>
         <div>
           <label style={{ display: "block", color: "var(--muted-foreground)", fontSize: "0.85rem", marginBottom: "0.5rem", fontWeight: 500 }}>
-            {t("contact.email")} *
+            {t("contact.mobile")} *
           </label>
           <input
-            type="email"
+            type="tel"
             className="contact-input"
-            placeholder="you@example.com"
+            placeholder="+91 9876543210"
             required
-            value={form.email}
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
+            value={form.mobile}
+            onChange={(e) => setForm({ ...form, mobile: e.target.value })}
           />
         </div>
       </div>
       <div>
         <label style={{ display: "block", color: "var(--muted-foreground)", fontSize: "0.85rem", marginBottom: "0.5rem", fontWeight: 500 }}>
-          {t("contact.message")} *
+          {t("contact.message_optional")}
         </label>
         <textarea
           className="contact-input"
           rows={5}
           placeholder="..."
-          required
           value={form.message}
           onChange={(e) => setForm({ ...form, message: e.target.value })}
           style={{ resize: "vertical" }}

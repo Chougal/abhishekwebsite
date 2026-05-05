@@ -53,8 +53,8 @@ export function Header() {
           borderBottom: scrolled ? "1px solid var(--border)" : "none",
         }}
       >
-        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 1.5rem" }}>
-          <div style={{ display: "flex", alignItems: "center", height: "80px", justifyContent: "space-between" }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 1rem" }}>
+          <div style={{ display: "flex", alignItems: "center", height: "70px", justifyContent: "space-between" }}>
             {/* Menu Toggle */}
             <button
               onClick={() => setMobileMenuOpen(true)}
@@ -62,11 +62,11 @@ export function Header() {
                 display: "flex",
                 alignItems: "center",
                 gap: "0.6rem",
-                background: "rgba(255, 255, 255, 0.05)",
-                border: "1px solid rgba(255, 255, 255, 0.1)",
+                background: "var(--glass-more)",
+                border: "1px solid var(--border)",
                 padding: "0.5rem 1.1rem",
                 borderRadius: "16px",
-                color: "white",
+                color: "var(--foreground)",
                 cursor: "pointer",
                 transition: "all 0.3s ease",
                 fontFamily: "var(--font-space-grotesk), sans-serif",
@@ -74,9 +74,9 @@ export function Header() {
                 fontSize: "0.85rem",
                 letterSpacing: "0.03em",
               }}
-              className="hover:bg-[rgba(108,99,255,0.2)] hover:border-[#6c63ff]/50 hover:scale-105 active:scale-95"
+              className="hover:bg-[rgba(108,99,255,0.1)] hover:border-[#6c63ff]/50 hover:scale-105 active:scale-95"
             >
-              <Menu size={18} className="text-[#6c63ff]" />
+              <Menu size={18} style={{ color: "#6c63ff" }} />
               <span>{t("nav.menu")}</span>
             </button>
 

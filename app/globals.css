@@ -25,6 +25,7 @@
   --gradient-2: linear-gradient(135deg, var(--cyan) 0%, var(--primary) 100%);
   --glass: rgba(255, 255, 255, 0.04);
   --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-more: rgba(255, 255, 255, 0.1);
 }
 
 .light {
@@ -38,6 +39,7 @@
   --border: rgba(0, 0, 0, 0.1);
   --glass: rgba(255, 255, 255, 0.9);
   --glass-border: rgba(0, 0, 0, 0.12);
+  --glass-more: rgba(0, 0, 0, 0.05);
   --primary-glow: color-mix(in srgb, var(--primary) 20%, transparent);
 }
 

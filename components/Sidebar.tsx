@@ -12,7 +12,15 @@ import {
 
 export function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const { t, language } = useLanguage()
-  const { theme, setTheme } = useTheme()
+  const { theme, setTheme, resolvedTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  // Avoid rendering theme-dependent UI until mounted to prevent hydration errors
+  const currentTheme = mounted ? (theme === "system" ? resolvedTheme : theme) : "dark"
 
   const navItems = [
     { label: t("nav.home"), href: "/#home", icon: <Home size={22} /> },
@@ -177,7 +185,7 @@ export function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
         }}>
           {/* Theme Toggle */}
           <button
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            onClick={() => setTheme(currentTheme === "dark" ? "light" : "dark")}
             style={{
               display: "flex",
               alignItems: "center",
@@ -194,16 +202,16 @@ export function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
             className="hover:bg-white/5"
           >
             <div style={{ flexShrink: 0 }}>
-              {theme === "dark" ? <Sun size={22} /> : <Moon size={22} />}
+              {currentTheme === "dark" ? <Sun size={22} /> : <Moon size={22} />}
             </div>
             <span style={{ fontSize: "1rem", fontWeight: 600 }}>
-              {theme === "dark" ? "Light Mode" : "Dark Mode"}
+              {currentTheme === "dark" ? "Light Mode" : "Dark Mode"}
             </span>
             <div style={{ 
                marginLeft: "auto", 
                width: "36px", 
                height: "20px", 
-               background: theme === "dark" ? "var(--primary)" : "rgba(0,0,0,0.1)", 
+               background: currentTheme === "dark" ? "var(--primary)" : "rgba(0,0,0,0.1)", 
                borderRadius: "50px", 
                position: "relative",
                transition: "background 0.3s ease"
@@ -215,7 +223,7 @@ export function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
                   borderRadius: "50%", 
                   position: "absolute", 
                   top: "3px", 
-                  left: theme === "dark" ? "19px" : "3px",
+                  left: currentTheme === "dark" ? "19px" : "3px",
                   transition: "all 0.3s ease"
                 }} />
              </div>

@@ -19,6 +19,7 @@ import { LanguageProvider } from "@/lib/language-context"
 import { ThemeProvider } from "@/components/theme-provider"
 import { FloatingWhatsApp } from "@/components/FloatingWhatsApp"
 import { VoiceAssistant } from "@/components/VoiceAssistant"
+import { Sidebar } from "@/components/Sidebar"
 
 export const metadata: Metadata = {
   title: "Abhishek Chougale | Full Stack Developer",
@@ -38,11 +39,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+
   return (
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`} suppressHydrationWarning>
       <body className="font-sans antialiased">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <LanguageProvider>
+            <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
             {children}
             <VoiceAssistant />
             <FloatingWhatsApp />

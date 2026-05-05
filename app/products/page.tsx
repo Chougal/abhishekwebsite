@@ -50,8 +50,15 @@ function ProductCard({ product }: { product: any }) {
   const { t } = useLanguage()
   return (
     <Dialog>
-      <div className="glass-card group hover-glow" style={{ overflow: "hidden", display: "flex", flexDirection: "column", height: "100%" }}>
-        <div style={{ position: "relative", height: "200px", background: "rgba(0,0,0,0.2)" }}>
+      <div className="glass-card group hover-glow" style={{ 
+        overflow: "hidden", 
+        display: "flex", 
+        flexDirection: "column", 
+        height: "480px", // Fixed height for uniformity
+        transition: "all 0.3s ease" 
+      }}>
+        {/* Image Section - Fixed 200px */}
+        <div style={{ position: "relative", height: "200px", minHeight: "200px", background: "rgba(0,0,0,0.2)", overflow: "hidden" }}>
           <img 
             src={product.image} 
             alt={product.title} 
@@ -77,30 +84,56 @@ function ProductCard({ product }: { product: any }) {
             ₹{product.price}
           </div>
 
-          <div style={{ position: "absolute", bottom: "1rem", left: "1rem", display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
-             {product.tech.map((techName: string) => (
+          {/* Tech Tags - Overlay bottom of image */}
+          <div style={{ position: "absolute", bottom: "1rem", left: "1rem", right: "1rem", display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
+             {product.tech.slice(0, 3).map((techName: string) => (
                 <span key={techName} style={{ 
-                  fontSize: "0.65rem", 
-                  padding: "2px 8px", 
+                  fontSize: "0.6rem", 
+                  padding: "2px 6px", 
                   background: "var(--glass)", 
                   borderRadius: "4px", 
                   backdropFilter: "blur(4px)",
                   border: "1px solid var(--border)",
-                  color: "var(--foreground)"
+                  color: "var(--foreground)",
+                  fontWeight: 600
                 }}>{techName}</span>
              ))}
           </div>
         </div>
-        <div style={{ padding: "1.5rem", flex: 1, display: "flex", flexDirection: "column" }}>
-           <h4 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: "0.5rem", fontFamily: "var(--font-space-grotesk), sans-serif" }}>{product.title}</h4>
-           <p style={{ fontSize: "0.9rem", color: "var(--muted-foreground)", marginBottom: "1.5rem", flex: 1 }}>{product.description}</p>
+
+        {/* Content Section */}
+        <div style={{ padding: "1.25rem", flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+           <div>
+             <h4 style={{ 
+               fontSize: "1.15rem", 
+               fontWeight: 700, 
+               marginBottom: "0.5rem", 
+               fontFamily: "var(--font-space-grotesk), sans-serif",
+               display: "-webkit-box",
+               WebkitLineClamp: 1,
+               WebkitBoxOrient: "vertical",
+               overflow: "hidden"
+             }}>{product.title}</h4>
+             
+             <p style={{ 
+               fontSize: "0.85rem", 
+               color: "var(--muted-foreground)", 
+               lineHeight: "1.5",
+               display: "-webkit-box",
+               WebkitLineClamp: 3,
+               WebkitBoxOrient: "vertical",
+               overflow: "hidden"
+             }}>{product.description}</p>
+           </div>
            
             <DialogTrigger asChild>
              <button className="btn-outline" style={{ 
                width: "100%", 
-               padding: "0.6rem", 
+               padding: "0.7rem", 
                borderWidth: "2px",
-               fontWeight: 700
+               fontWeight: 700,
+               fontSize: "0.9rem",
+               marginTop: "1rem"
              }}>View Details</button>
            </DialogTrigger>
         </div>

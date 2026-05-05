@@ -8,6 +8,7 @@ export function VoiceAssistant() {
   const { language } = useLanguage()
   const [isSpeaking, setIsSpeaking] = useState(false)
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([])
+  const [synth, setSynth] = useState<SpeechSynthesis | null>(null)
 
   useEffect(() => {
     if (typeof window !== "undefined") {

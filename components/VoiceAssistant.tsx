@@ -7,11 +7,24 @@ import { useLanguage } from "@/lib/language-context"
 export function VoiceAssistant() {
   const { language } = useLanguage()
   const [isSpeaking, setIsSpeaking] = useState(false)
-  const [synth, setSynth] = useState<SpeechSynthesis | null>(null)
+  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([])
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setSynth(window.speechSynthesis)
+      const s = window.speechSynthesis
+      setSynth(s)
+      
+      const loadVoices = () => {
+        const availableVoices = s.getVoices()
+        if (availableVoices.length > 0) {
+          setVoices(availableVoices)
+        }
+      }
+
+      loadVoices()
+      if (s.onvoiceschanged !== undefined) {
+        s.onvoiceschanged = loadVoices
+      }
     }
   }, [])
 
@@ -35,19 +48,19 @@ export function VoiceAssistant() {
       return
     }
 
+    // Try to get voices again if list is empty
+    let availableVoices = voices.length > 0 ? voices : synth.getVoices()
+    
     const text = getIntroText()
     const utterance = new SpeechSynthesisUtterance(text)
-    
-    // Get all available voices
-    const voices = synth.getVoices()
     
     // Define preferred language codes for each mode
     let langCodes = ["en-US", "en-GB"]
     if (language === "hi") langCodes = ["hi-IN", "hi_IN"]
-    if (language === "mr") langCodes = ["mr-IN", "hi-IN", "hi_IN"] // Fallback to Hindi for Marathi if needed
+    if (language === "mr") langCodes = ["mr-IN", "hi-IN", "hi_IN"]
     
     // Find the best matching voice
-    const voice = voices.find(v => langCodes.some(code => v.lang.replace("_", "-").startsWith(code)))
+    const voice = availableVoices.find(v => langCodes.some(code => v.lang.replace("_", "-").startsWith(code)))
     
     if (voice) {
       utterance.voice = voice
@@ -56,17 +69,26 @@ export function VoiceAssistant() {
       utterance.lang = langCodes[0]
     }
     
-    utterance.rate = 0.85 // Slightly slower for better clarity
+    utterance.rate = 0.85
     utterance.pitch = 1.0
 
+    utterance.onstart = () => setIsSpeaking(true)
     utterance.onend = () => setIsSpeaking(false)
     utterance.onerror = (e) => {
       console.error("Speech error:", e)
       setIsSpeaking(false)
+      // Fallback: alert the user if speech fails on some mobile browsers
+      if (e.error === 'network') {
+        alert("Voice loading failed. Please check your internet connection.")
+      }
     }
 
-    setIsSpeaking(true)
-    synth.speak(utterance)
+    // Some browsers require synth.cancel() before starting a new one
+    synth.cancel()
+    setTimeout(() => {
+      synth.speak(utterance)
+      setIsSpeaking(true)
+    }, 100)
   }
 
   return (

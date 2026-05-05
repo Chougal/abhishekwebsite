@@ -35,6 +35,16 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  // Prevent scrolling when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = "unset"
+    }
+    return () => { document.body.style.overflow = "unset" }
+  }, [mobileMenuOpen])
+
   return (
     <>
       <Sidebar isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
@@ -44,7 +54,7 @@ export function Header() {
           top: 0,
           left: 0,
           right: 0,
-          zIndex: 100,
+          zIndex: 500,
           transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
           background: scrolled
             ? "var(--glass)"

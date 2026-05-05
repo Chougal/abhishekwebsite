@@ -17,6 +17,8 @@ const spaceGrotesk = Space_Grotesk({
 
 import { LanguageProvider } from "@/lib/language-context"
 import { ThemeProvider } from "@/components/theme-provider"
+import { FloatingWhatsApp } from "@/components/FloatingWhatsApp"
+import { VoiceAssistant } from "@/components/VoiceAssistant"
 
 export const metadata: Metadata = {
   title: "Abhishek Chougale | Full Stack Developer",
@@ -42,6 +44,8 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <LanguageProvider>
             {children}
+            <VoiceAssistant />
+            <FloatingWhatsApp />
           </LanguageProvider>
         </ThemeProvider>
       </body>

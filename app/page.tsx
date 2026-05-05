@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { FloatingSocials } from "@/components/FloatingSocials"
+import { RevealOnScroll } from "@/components/RevealOnScroll"
 import Link from "next/link"
 import { useLanguage } from "@/lib/language-context"
 import {
@@ -90,9 +91,9 @@ function TypeWriter({ words }: { words: string[] }) {
 }
 
 // ===================== SKILL CARD =====================
-function SkillCard({ skill }: { skill: typeof skills[0] }) {
+function SkillCard({ skill }: { skill: any }) {
   return (
-    <div className="glass-card" style={{ padding: "1.75rem" }}>
+    <div className="glass-card hover-glow" style={{ padding: "1.75rem" }}>
       <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1.25rem" }}>
         <div
           style={{
@@ -129,7 +130,7 @@ function ProductCard({ product }: { product: any }) {
   const { t } = useLanguage()
   return (
     <Dialog>
-      <div className="glass-card group" style={{ overflow: "hidden", display: "flex", flexDirection: "column" }}>
+      <div className="glass-card group hover-glow" style={{ overflow: "hidden", display: "flex", flexDirection: "column" }}>
         <div style={{ position: "relative", height: "200px", background: "rgba(0,0,0,0.2)" }}>
           <img 
             src={product.image} 
@@ -137,10 +138,18 @@ function ProductCard({ product }: { product: any }) {
             style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.5s ease" }}
             className="group-hover:scale-110"
           />
-          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, var(--background), transparent)" }} />
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 40%)" }} />
           <div style={{ position: "absolute", bottom: "1rem", left: "1rem", display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
              {product.tech.map((techName: string) => (
-                <span key={techName} style={{ fontSize: "0.65rem", padding: "2px 8px", background: "rgba(255,255,255,0.1)", borderRadius: "4px", backdropFilter: "blur(4px)" }}>{techName}</span>
+                <span key={techName} style={{ 
+                  fontSize: "0.65rem", 
+                  padding: "2px 8px", 
+                  background: "var(--glass)", 
+                  borderRadius: "4px", 
+                  backdropFilter: "blur(4px)",
+                  border: "1px solid var(--border)",
+                  color: "var(--foreground)"
+                }}>{techName}</span>
              ))}
           </div>
         </div>
@@ -148,9 +157,14 @@ function ProductCard({ product }: { product: any }) {
            <h4 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: "0.5rem", fontFamily: "var(--font-space-grotesk), sans-serif" }}>{product.title}</h4>
            <p style={{ fontSize: "0.9rem", color: "var(--muted-foreground)", marginBottom: "1.5rem", flex: 1 }}>{product.description}</p>
            
-           <DialogTrigger asChild>
-             <button className="btn-outline" style={{ width: "100%", padding: "0.5rem" }}>{t("projects.viewDetails")}</button>
-           </DialogTrigger>
+            <DialogTrigger asChild>
+              <button className="btn-outline" style={{ 
+                width: "100%", 
+                padding: "0.6rem",
+                borderWidth: "2px",
+                fontWeight: 700
+              }}>{t("projects.viewDetails")}</button>
+            </DialogTrigger>
         </div>
       </div>
 
@@ -161,10 +175,10 @@ function ProductCard({ product }: { product: any }) {
               {product.category}
             </span>
           </div>
-          <DialogTitle className="text-3xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
+          <DialogTitle className="text-3xl font-bold text-[var(--foreground)]">
             {product.title}
           </DialogTitle>
-          <DialogDescription className="text-gray-400 mt-2 line-height-relaxed">
+          <DialogDescription className="text-[var(--muted-foreground)] mt-2 line-height-relaxed">
             {product.fullDescription}
           </DialogDescription>
         </DialogHeader>
@@ -185,7 +199,7 @@ function ProductCard({ product }: { product: any }) {
               <h4 className="text-sm font-semibold text-[var(--foreground)]">{t("projects.features")}</h4>
               <ul className="space-y-1">
                 {product.features.map((f: string) => (
-                  <li key={f} className="text-xs text-gray-400 flex items-center gap-2">
+                  <li key={f} className="text-xs text-[var(--muted-foreground)] flex items-center gap-2">
                     <Check size={12} className="text-[var(--primary)]" /> {f}
                   </li>
                 ))}
@@ -257,7 +271,7 @@ function EducationCard({ edu, index, total }: { edu: any; index: number; total: 
 
       {/* Content */}
       <div
-        className="glass-card"
+        className="glass-card hover-glow"
         style={{
           padding: "1.5rem",
           flex: 1,
@@ -410,12 +424,20 @@ function ContactForm() {
           width: "fit-content",
           opacity: sending ? 0.7 : 1,
           cursor: sending ? "not-allowed" : "pointer",
+          position: "relative",
+          overflow: "hidden"
         }}
       >
         {sent ? (
-          t("contact.sent")
+          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <Check size={16} />
+            {t("contact.sent")}
+          </div>
         ) : sending ? (
-          t("contact.sending")
+          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <div className="animate-spin" style={{ width: "14px", height: "14px", border: "2px solid white", borderTopColor: "transparent", borderRadius: "50%" }} />
+            {t("contact.sending")}
+          </div>
         ) : (
           <>
             <Send size={16} />
@@ -423,6 +445,23 @@ function ContactForm() {
           </>
         )}
       </button>
+
+      {sent && (
+        <div 
+          style={{ 
+            marginTop: "1rem", 
+            padding: "1rem", 
+            borderRadius: "12px", 
+            background: "rgba(67, 217, 173, 0.1)", 
+            border: "1px solid rgba(67, 217, 173, 0.3)",
+            color: "#43d9ad",
+            fontWeight: 600,
+            fontSize: "0.95rem"
+          }}
+        >
+          <TypeWriter words={["Thank you for reaching out to Abhishek!"]} />
+        </div>
+      )}
     </form>
   )
 }
@@ -464,7 +503,7 @@ export default function HomePage() {
       {/* ===== HERO SECTION ===== */}
       <section
         id="home"
-        className="bg-mesh"
+        className="bg-mesh gradient-move"
         style={{
           minHeight: "100vh",
           display: "flex",
@@ -477,15 +516,19 @@ export default function HomePage() {
         {/* Background Orbs */}
         <div
           className="orb orb-purple animate-float"
-          style={{ width: "min(500px, 80vw)", height: "min(500px, 80vw)", top: "-100px", right: "-100px" }}
+          style={{ width: "min(600px, 90vw)", height: "min(600px, 90vw)", top: "-150px", right: "-100px", opacity: 0.2 }}
         />
         <div
-          className="orb orb-pink"
-          style={{ width: "min(400px, 70vw)", height: "min(400px, 70vw)", bottom: "-50px", left: "-100px" }}
+          className="orb orb-pink animate-float"
+          style={{ width: "min(400px, 70vw)", height: "min(400px, 70vw)", bottom: "-50px", left: "-100px", animationDelay: "2s" }}
         />
         <div
-          className="orb orb-cyan"
-          style={{ width: "min(300px, 60vw)", height: "min(300px, 60vw)", top: "50%", left: "40%" }}
+          className="orb orb-cyan animate-pulse-glow"
+          style={{ width: "min(350px, 60vw)", height: "min(350px, 60vw)", top: "40%", left: "35%", opacity: 0.1 }}
+        />
+        <div
+          className="orb orb-purple animate-float"
+          style={{ width: "200px", height: "200px", bottom: "10%", right: "20%", animationDuration: "6s" }}
         />
 
         <div
@@ -693,66 +736,70 @@ export default function HomePage() {
       </section>
 
       {/* ===== STATS SECTION ===== */}
-      <section style={{ padding: "5rem 1.5rem", background: "rgba(12,12,20,0.6)" }}>
+      <section style={{ padding: "5rem 1.5rem", background: "rgba(12,12,20,0.6)", position: "relative", overflow: "hidden" }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1.5rem" }}>
-            {statsData.map((stat) => (
-              <div
-                key={stat.label}
-                className="glass-card"
-                style={{ padding: "2rem", textAlign: "center" }}
-              >
+          <RevealOnScroll>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1.5rem" }}>
+              {statsData.map((stat) => (
                 <div
-                  style={{
-                    width: "50px",
-                    height: "50px",
-                    borderRadius: "14px",
-                    background: `${stat.color}20`,
-                    border: `1px solid ${stat.color}40`,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: stat.color,
-                    margin: "0 auto 1rem",
-                  }}
+                  key={stat.label}
+                  className="glass-card hover-glow"
+                  style={{ padding: "2rem", textAlign: "center" }}
                 >
-                  {stat.icon}
+                  <div
+                    style={{
+                      width: "50px",
+                      height: "50px",
+                      borderRadius: "14px",
+                      background: `${stat.color}20`,
+                      border: `1px solid ${stat.color}40`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: stat.color,
+                      margin: "0 auto 1rem",
+                    }}
+                  >
+                    {stat.icon}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: "2.5rem",
+                      fontWeight: 800,
+                      fontFamily: "var(--font-space-grotesk), sans-serif",
+                      color: stat.color,
+                      lineHeight: 1,
+                      marginBottom: "0.5rem",
+                    }}
+                  >
+                    <AnimatedCounter value={stat.value} />
+                  </div>
+                  <div style={{ color: "var(--muted-foreground)", fontSize: "0.9rem", fontWeight: 500 }}>
+                    {stat.label === "Years of Study" ? t("stats.years") : 
+                    stat.label === "Degrees Earned" ? t("stats.degrees") :
+                    stat.label === "Projects Built" ? t("stats.projects") :
+                    stat.label === "Technologies" ? t("stats.tech") : stat.label}
+                  </div>
                 </div>
-                <div
-                  style={{
-                    fontSize: "2.5rem",
-                    fontWeight: 800,
-                    fontFamily: "var(--font-space-grotesk), sans-serif",
-                    color: stat.color,
-                    lineHeight: 1,
-                    marginBottom: "0.5rem",
-                  }}
-                >
-                  <AnimatedCounter value={stat.value} />
-                </div>
-                <div style={{ color: "var(--muted-foreground)", fontSize: "0.9rem", fontWeight: 500 }}>
-                  {stat.label === "Years of Study" ? t("stats.years") : 
-                   stat.label === "Degrees Earned" ? t("stats.degrees") :
-                   stat.label === "Projects Built" ? t("stats.projects") :
-                   stat.label === "Technologies" ? t("stats.tech") : stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </RevealOnScroll>
         </div>
       </section>
 
       {/* ===== PRODUCTS SECTION ===== */}
       <section id="products" style={{ padding: "6rem 1.5rem" }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: "4rem" }}>
-            <p style={{ color: "#6c63ff", fontWeight: 600, fontSize: "0.9rem", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "0.75rem" }}>
-              My Offerings
-            </p>
-            <h2 className="section-title">{t("projects.title")}</h2>
-            <div className="section-line" />
-            <p className="section-subtitle">{t("projects.subtitle")}</p>
-          </div>
+          <RevealOnScroll>
+            <div style={{ textAlign: "center", marginBottom: "4rem" }}>
+              <p style={{ color: "#6c63ff", fontWeight: 600, fontSize: "0.9rem", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "0.75rem" }}>
+                My Offerings
+              </p>
+              <h2 className="section-title">{t("projects.title")}</h2>
+              <div className="section-line" />
+              <p className="section-subtitle">{t("projects.subtitle")}</p>
+            </div>
+          </RevealOnScroll>
 
           <div 
             style={{ 
@@ -762,9 +809,9 @@ export default function HomePage() {
             }}
           >
             {productsData.map((prod, idx) => (
-                <div key={idx} style={{ animation: `fadeInUp 0.6s ease ${idx * 0.15}s both` }}>
+                <RevealOnScroll key={idx} delay={idx * 100}>
                    <ProductCard product={prod} />
-                </div>
+                </RevealOnScroll>
              ))}
           </div>
         </div>
@@ -773,20 +820,24 @@ export default function HomePage() {
       {/* ===== EDUCATION SECTION ===== */}
       <section id="education" style={{ padding: "6rem 1.5rem", background: "rgba(10,10,18,0.8)" }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: "4rem" }}>
-            <p style={{ color: "#ff6584", fontWeight: 600, fontSize: "0.9rem", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "0.75rem" }}>
-              Academic Journey
-            </p>
-            <h2 className="section-title">{t("education.title")}</h2>
-            <div className="section-line" style={{ background: "linear-gradient(135deg, #ff6584 0%, #6c63ff 100%)" }} />
-            <p className="section-subtitle">
-              {t("education.subtitle")}
-            </p>
-          </div>
+          <RevealOnScroll>
+            <div style={{ textAlign: "center", marginBottom: "4rem" }}>
+              <p style={{ color: "#ff6584", fontWeight: 600, fontSize: "0.9rem", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "0.75rem" }}>
+                Academic Journey
+              </p>
+              <h2 className="section-title">{t("education.title")}</h2>
+              <div className="section-line" style={{ background: "linear-gradient(135deg, #ff6584 0%, #6c63ff 100%)" }} />
+              <p className="section-subtitle">
+                {t("education.subtitle")}
+              </p>
+            </div>
+          </RevealOnScroll>
 
           <div style={{ maxWidth: "800px", margin: "0 auto", display: "flex", flexDirection: "column", gap: "0" }}>
             {educationData.map((edu, index) => (
-              <EducationCard key={edu.id} edu={edu} index={index} total={educationData.length} />
+              <RevealOnScroll key={edu.id} delay={index * 150}>
+                <EducationCard edu={edu} index={index} total={educationData.length} />
+              </RevealOnScroll>
             ))}
           </div>
         </div>
@@ -809,6 +860,78 @@ export default function HomePage() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.5rem" }}>
             {skillsData.map((skill) => (
               <SkillCard key={skill.category} skill={skill} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== TESTIMONIALS SECTION ===== */}
+      <section id="testimonials" style={{ padding: "6rem 1.5rem", background: "rgba(10,10,18,0.4)" }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+          <RevealOnScroll>
+            <div style={{ textAlign: "center", marginBottom: "4rem" }}>
+              <p style={{ color: "#ff6584", fontWeight: 600, fontSize: "0.9rem", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "0.75rem" }}>
+                Client Stories
+              </p>
+              <h2 className="section-title">What My Clients Say</h2>
+              <div className="section-line" style={{ background: "linear-gradient(135deg, #ff6584 0%, #6c63ff 100%)" }} />
+            </div>
+          </RevealOnScroll>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "2rem" }}>
+            {[
+              { name: "Sagar Patil", role: "Dairy Owner", text: "The Smart Dairy Analytics system transformed my business. Accurate records and easy quality monitoring. Highly recommend Abhishek!", rating: 5 },
+              { name: "Pooja Deshmukh", role: "Retailer", text: "Jewellery Management Pro is exactly what I needed for my shop. The billing is super fast and inventory management is seamless.", rating: 5 },
+              { name: "Rahul More", role: "Student", text: "I bought a project for my final year, and the code quality was top-notch. Abhishek also helped me with the setup. Great support!", rating: 5 },
+            ].map((t, idx) => (
+              <RevealOnScroll key={idx} delay={idx * 100}>
+                <div className="glass-card hover-glow" style={{ padding: "2rem", position: "relative" }}>
+                  <div style={{ display: "flex", gap: "2px", marginBottom: "1rem" }}>
+                    {[...Array(t.rating)].map((_, i) => <Star key={i} size={16} fill="#FFD700" color="#FFD700" />)}
+                  </div>
+                  <p style={{ fontStyle: "italic", color: "var(--muted-foreground)", marginBottom: "1.5rem", fontSize: "0.95rem" }}>&quot;{t.text}&quot;</p>
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                    <div style={{ width: "40px", height: "40px", borderRadius: "50%", background: "var(--primary-glow)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, color: "var(--primary)" }}>{t.name[0]}</div>
+                    <div>
+                      <h4 style={{ fontSize: "1rem", fontWeight: 700 }}>{t.name}</h4>
+                      <p style={{ fontSize: "0.8rem", color: "var(--muted-foreground)" }}>{t.role}</p>
+                    </div>
+                  </div>
+                </div>
+              </RevealOnScroll>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== FAQ SECTION ===== */}
+      <section id="faq" style={{ padding: "6rem 1.5rem" }}>
+        <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+          <RevealOnScroll>
+            <div style={{ textAlign: "center", marginBottom: "4rem" }}>
+              <p style={{ color: "#43d9ad", fontWeight: 600, fontSize: "0.9rem", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "0.75rem" }}>
+                Questions?
+              </p>
+              <h2 className="section-title">Frequently Asked Questions</h2>
+              <div className="section-line" style={{ background: "linear-gradient(135deg, #43d9ad 0%, #6c63ff 100%)" }} />
+            </div>
+          </RevealOnScroll>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+            {[
+              { q: "How will I receive the project after purchase?", a: "Once the payment is confirmed via WhatsApp, I will send you a secure link to download the source code, database, and documentation." },
+              { q: "Do you provide support for project setup?", a: "Yes! Every purchase includes basic setup support via WhatsApp or AnyDesk to ensure the project runs smoothly on your system." },
+              { q: "Can I request custom changes to a project?", a: "Absolutely. I can customize any project to fit your specific requirements. We can discuss the details and additional costs on WhatsApp." },
+              { q: "Is the code well-documented?", a: "Yes, all my projects come with clean, commented code and a setup guide to help you understand the architecture." }
+            ].map((faq, idx) => (
+              <RevealOnScroll key={idx} delay={idx * 100}>
+                <div className="glass-card" style={{ padding: "1.5rem" }}>
+                  <h4 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "0.75rem", display: "flex", gap: "0.75rem", alignItems: "center" }}>
+                    <Check size={18} className="text-[var(--primary)]" /> {faq.q}
+                  </h4>
+                  <p style={{ color: "var(--muted-foreground)", fontSize: "0.95rem", paddingLeft: "1.8rem" }}>{faq.a}</p>
+                </div>
+              </RevealOnScroll>
             ))}
           </div>
         </div>

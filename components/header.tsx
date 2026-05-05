@@ -10,12 +10,13 @@ import {
 } from "lucide-react"
 
 const getNavItems = (t: (key: string) => string) => [
-  { label: t("nav.home"), href: "#home", icon: <Home size={22} /> },
-  { label: t("nav.about"), href: "#about", icon: <User size={22} /> },
-  { label: t("nav.education"), href: "#education", icon: <GraduationCap size={22} /> },
-  { label: t("nav.projects"), href: "#products", icon: <Briefcase size={22} /> },
-  { label: t("nav.skills"), href: "#skills", icon: <Cpu size={22} /> },
-  { label: t("nav.contact"), href: "#contact", icon: <Mail size={22} /> },
+  { label: t("nav.home"), href: "/#home", icon: <Home size={22} /> },
+  { label: t("nav.about"), href: "/#about", icon: <User size={22} /> },
+  { label: t("nav.education"), href: "/#education", icon: <GraduationCap size={22} /> },
+  { label: t("nav.projects"), href: "/#products", icon: <Briefcase size={22} /> },
+  { label: t("nav.all_products"), href: "/products", icon: <Briefcase size={22} /> },
+  { label: t("nav.skills"), href: "/#skills", icon: <Cpu size={22} /> },
+  { label: t("nav.contact"), href: "/#contact", icon: <Mail size={22} /> },
 ]
 
 export function Header() {

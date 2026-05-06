@@ -99,111 +99,128 @@ function ProductCard({
   onToggleCompare: (id: number) => void,
   onShare: (product: any) => void
 }) {
+// ===================== PRODUCT CARD =====================
+function ProductCard({ 
+  product, 
+  isWishlisted, 
+  onToggleWishlist, 
+  isComparing, 
+  onToggleCompare,
+  onShare
+}: { 
+  product: any, 
+  isWishlisted: boolean, 
+  onToggleWishlist: (id: number) => void,
+  isComparing: boolean,
+  onToggleCompare: (id: number) => void,
+  onShare: (product: any) => void
+}) {
   const { t } = useLanguage()
   return (
     <Dialog>
-      <div className="glass-card group hover-glow" style={{ 
+      <div className="glass-card group hover-glow product-card" style={{ 
         overflow: "hidden", 
         display: "flex", 
         flexDirection: "column", 
         height: "480px", 
         transition: "all 0.3s ease",
-        position: "relative"
+        position: "relative",
+        border: "1px solid var(--border)"
       }}>
         {/* Action Buttons Top Left */}
-        <div style={{ position: "absolute", top: "1rem", left: "1rem", zIndex: 10, display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+        <div style={{ position: "absolute", top: "0.75rem", left: "0.75rem", zIndex: 10, display: "flex", flexDirection: "column", gap: "0.5rem" }}>
           <button 
             onClick={(e) => { e.stopPropagation(); onToggleWishlist(product.id); }}
             style={{
-              background: "rgba(0,0,0,0.3)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.1)",
-              width: "40px", height: "40px", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center",
+              background: "rgba(0,0,0,0.4)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.15)",
+              width: "42px", height: "42px", borderRadius: "14px", display: "flex", alignItems: "center", justifyContent: "center",
               color: isWishlisted ? "#ef4444" : "white", transition: "all 0.3s ease", cursor: "pointer"
             }}
-            className="hover:scale-110 active:scale-90 hover:bg-black/50"
+            className="hover:scale-110 active:scale-90 hover:bg-black/60 shadow-lg"
             title={isWishlisted ? t("products.removeFromWishlist") : t("products.addToWishlist")}
           >
-            <Heart size={20} fill={isWishlisted ? "#ef4444" : "none"} />
+            <Heart size={22} fill={isWishlisted ? "#ef4444" : "none"} />
           </button>
 
           <button 
             onClick={(e) => { e.stopPropagation(); onToggleCompare(product.id); }}
             style={{
-              background: isComparing ? "var(--primary)" : "rgba(0,0,0,0.3)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.1)",
-              width: "40px", height: "40px", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center",
+              background: isComparing ? "var(--primary)" : "rgba(0,0,0,0.4)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.15)",
+              width: "42px", height: "42px", borderRadius: "14px", display: "flex", alignItems: "center", justifyContent: "center",
               color: "white", transition: "all 0.3s ease", cursor: "pointer"
             }}
-            className="hover:scale-110 active:scale-90 hover:bg-black/50"
+            className="hover:scale-110 active:scale-90 hover:bg-black/60 shadow-lg"
             title={t("products.compare")}
           >
-            <ArrowRightLeft size={20} />
+            <ArrowRightLeft size={22} />
           </button>
         </div>
 
         {/* Action Buttons Top Right */}
-        <div style={{ position: "absolute", top: "1rem", right: "1rem", zIndex: 10 }}>
+        <div style={{ position: "absolute", top: "0.75rem", right: "0.75rem", zIndex: 10 }}>
            <button 
             onClick={(e) => { e.stopPropagation(); onShare(product); }}
             style={{
-              background: "rgba(0,0,0,0.3)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.1)",
-              width: "40px", height: "40px", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center",
+              background: "rgba(0,0,0,0.4)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.15)",
+              width: "42px", height: "42px", borderRadius: "14px", display: "flex", alignItems: "center", justifyContent: "center",
               color: "white", transition: "all 0.3s ease", cursor: "pointer"
             }}
-            className="hover:scale-110 active:scale-90 hover:bg-black/50"
+            className="hover:scale-110 active:scale-90 hover:bg-black/60 shadow-lg"
             title={t("products.share")}
           >
-            <Share2 size={20} />
+            <Share2 size={22} />
           </button>
         </div>
 
         {/* Image Section */}
-        <div style={{ position: "relative", height: "200px", minHeight: "200px", background: "rgba(0,0,0,0.2)", overflow: "hidden" }}>
+        <div style={{ position: "relative", height: "220px", minHeight: "220px", background: "rgba(0,0,0,0.2)", overflow: "hidden" }}>
           <img 
             src={product.image} 
             alt={product.title} 
-            style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.5s ease" }}
+            style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)" }}
             className="group-hover:scale-110"
           />
-          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.4), transparent)", opacity: 0.6 }} />
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,10,15,0.8), transparent)", opacity: 0.8 }} />
           
           <div style={{ 
             position: "absolute", bottom: "1rem", right: "1rem", background: "var(--primary)", color: "white", 
-            padding: "0.4rem 0.8rem", borderRadius: "12px", fontWeight: 700, fontSize: "0.9rem", boxShadow: "0 4px 15px rgba(0,0,0,0.3)", zIndex: 2
+            padding: "0.5rem 1rem", borderRadius: "14px", fontWeight: 800, fontSize: "1rem", boxShadow: "0 8px 20px rgba(108,99,255,0.3)", zIndex: 2
           }}>
             ₹{product.price.toLocaleString()}
           </div>
 
-          <div style={{ position: "absolute", bottom: "1rem", left: "1rem", right: "4rem", display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
+          <div style={{ position: "absolute", bottom: "1.25rem", left: "1rem", right: "5rem", display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
              {product.tech.slice(0, 3).map((techName: string) => (
                 <span key={techName} style={{ 
-                  fontSize: "0.6rem", padding: "2px 6px", background: "var(--glass)", borderRadius: "4px", 
-                  backdropFilter: "blur(4px)", border: "1px solid var(--border)", color: "var(--foreground)", fontWeight: 600
+                  fontSize: "0.65rem", padding: "3px 8px", background: "rgba(255,255,255,0.1)", borderRadius: "6px", 
+                  backdropFilter: "blur(10px)", border: "1px solid rgba(255,255,255,0.1)", color: "white", fontWeight: 600
                 }}>{techName}</span>
              ))}
           </div>
         </div>
 
         {/* Content Section */}
-        <div style={{ padding: "1.25rem", flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+        <div style={{ padding: "1.5rem", flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
            <div>
              <h4 style={{ 
-               fontSize: "1.15rem", fontWeight: 700, marginBottom: "0.5rem", fontFamily: "var(--font-space-grotesk), sans-serif",
-               display: "-webkit-box", WebkitLineClamp: 1, WebkitBoxOrient: "vertical", overflow: "hidden"
+               fontSize: "1.25rem", fontWeight: 800, marginBottom: "0.6rem", fontFamily: "var(--font-space-grotesk), sans-serif",
+               display: "-webkit-box", WebkitLineClamp: 1, WebkitBoxOrient: "vertical", overflow: "hidden", color: "var(--foreground)"
              }}>{product.title}</h4>
              
              <p style={{ 
-               fontSize: "0.85rem", color: "var(--muted-foreground)", lineHeight: "1.5",
+               fontSize: "0.9rem", color: "var(--muted-foreground)", lineHeight: "1.6",
                display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden"
              }}>{product.description}</p>
            </div>
            
-            <div style={{ display: "flex", gap: "0.5rem", marginTop: "1rem" }}>
+            <div style={{ display: "flex", gap: "0.75rem", marginTop: "1.25rem" }}>
               <DialogTrigger asChild>
-               <button className="btn-outline" style={{ flex: 1, padding: "0.7rem", fontWeight: 700, fontSize: "0.9rem" }}>
+               <button className="btn-outline" style={{ flex: 1, padding: "0.8rem", fontWeight: 700, fontSize: "0.9rem", borderRadius: "14px" }}>
                  {t("edu.seeDetails")}
                </button>
               </DialogTrigger>
-              <a href={product.link} className="btn-primary" style={{ padding: "0.7rem", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <ExternalLink size={18} />
+              <a href={product.link} className="btn-primary" style={{ width: "50px", height: "50px", padding: 0, borderRadius: "14px", display: "flex", alignItems: "center", justifyContent: "center", shrink: 0 }}>
+                <ExternalLink size={20} />
               </a>
             </div>
         </div>
@@ -277,7 +294,6 @@ function ProductCard({
   )
 }
 
-
 export default function ProductsPage() {
   const { t } = useLanguage()
   const [activeCategory, setActiveCategory] = useState("All")
@@ -288,7 +304,6 @@ export default function ProductsPage() {
   const [isLoaded, setIsLoaded] = useState(false)
   const [toast, setToast] = useState({ message: "", visible: false })
 
-  // Load state from localStorage
   useEffect(() => {
     const savedWishlist = localStorage.getItem("products-wishlist")
     const savedCompare = localStorage.getItem("products-compare")
@@ -297,7 +312,6 @@ export default function ProductsPage() {
     setIsLoaded(true)
   }, [])
 
-  // Save state to localStorage
   useEffect(() => {
     if (isLoaded) {
       localStorage.setItem("products-wishlist", JSON.stringify(wishlist))
@@ -360,59 +374,99 @@ export default function ProductsPage() {
     <div style={{ background: "var(--background)", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <Header />
       
+      <style jsx global>{`
+        .products-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          gap: 2rem;
+        }
+        @media (max-width: 640px) {
+          .products-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+          }
+          .compare-bar {
+            bottom: 1rem !important;
+            left: 0.5rem !important;
+            right: 0.5rem !important;
+            padding: 0.75rem !important;
+            flex-direction: column;
+            gap: 1rem;
+          }
+          .compare-actions {
+            width: 100%;
+            justify-content: space-between;
+          }
+          .product-card {
+            height: auto !important;
+            min-height: 450px;
+          }
+          .filter-container {
+            padding: 1.25rem !important;
+          }
+          .search-row {
+            flex-direction: column !important;
+          }
+          .search-input-wrapper {
+            width: 100% !important;
+          }
+        }
+        @keyframes slideUp {
+          from { transform: translateY(100%); opacity: 0; }
+          to { transform: translateY(0); opacity: 1; }
+        }
+      `}</style>
+
       <main style={{ flex: 1, paddingTop: "120px", paddingBottom: "6rem" }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 1.5rem" }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 1rem" }}>
           
-          {/* Page Header */}
           <RevealOnScroll>
-            <div style={{ textAlign: "center", marginBottom: "4rem" }}>
+            <div style={{ textAlign: "center", marginBottom: "3rem" }}>
               <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", padding: "0.5rem 1rem", background: "rgba(108, 99, 255, 0.1)", borderRadius: "50px", border: "1px solid rgba(108, 99, 255, 0.2)", color: "#6c63ff", marginBottom: "1rem" }}>
                 <Package size={16} />
-                <span style={{ fontSize: "0.85rem", fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase" }}>Project Marketplace</span>
+                <span style={{ fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase" }}>Project Marketplace</span>
               </div>
-              <h1 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, fontFamily: "var(--font-space-grotesk), sans-serif", marginBottom: "1rem" }}>
+              <h1 style={{ fontSize: "clamp(2rem, 8vw, 3.5rem)", fontWeight: 900, marginBottom: "1rem" }}>
                 Find Your Perfect <span className="gradient-text">Project</span>
               </h1>
-              <p style={{ color: "var(--muted-foreground)", fontSize: "1.1rem", maxWidth: "600px", margin: "0 auto", lineHeight: 1.6 }}>
+              <p style={{ color: "var(--muted-foreground)", fontSize: "1rem", maxWidth: "600px", margin: "0 auto", lineHeight: 1.6 }}>
                 High-quality, ready-to-deploy software solutions for students, developers, and businesses.
               </p>
             </div>
           </RevealOnScroll>
 
-          {/* Search & Filters */}
           <RevealOnScroll delay={100}>
-            <div style={{ marginBottom: "3rem", display: "flex", flexDirection: "column", gap: "2rem", background: "rgba(255,255,255,0.03)", padding: "2rem", borderRadius: "24px", border: "1px solid var(--border)" }}>
-              <div style={{ display: "flex", flexDirection: "row", gap: "1rem", alignItems: "center", flexWrap: "wrap" }}>
-                <div style={{ position: "relative", flex: 2, minWidth: "280px" }}>
-                  <input type="text" placeholder="Search by title or technology (e.g. React, Python)..." className="contact-input" style={{ paddingLeft: "3rem", borderRadius: "16px" }} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
-                  <div style={{ position: "absolute", left: "1.2rem", top: "50%", transform: "translateY(-50%)", color: "var(--muted-foreground)" }}>
-                    <Package size={20} />
+            <div className="filter-container" style={{ marginBottom: "2.5rem", background: "rgba(255,255,255,0.02)", padding: "1.5rem", borderRadius: "20px", border: "1px solid var(--border)", backdropFilter: "blur(10px)" }}>
+              <div className="search-row" style={{ display: "flex", flexDirection: "row", gap: "1rem", alignItems: "center", marginBottom: "1.5rem" }}>
+                <div className="search-input-wrapper" style={{ position: "relative", flex: 2 }}>
+                  <input type="text" placeholder="Search projects or tech..." className="contact-input" style={{ paddingLeft: "3rem", borderRadius: "12px", height: "50px" }} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+                  <div style={{ position: "absolute", left: "1.1rem", top: "50%", transform: "translateY(-50%)", color: "var(--muted-foreground)" }}>
+                    <Package size={18} />
                   </div>
                 </div>
-                <div style={{ position: "relative", flex: 1, minWidth: "200px" }}>
-                  <div style={{ position: "absolute", left: "1rem", top: "50%", transform: "translateY(-50%)", color: "var(--muted-foreground)", zIndex: 5, pointerEvents: "none" }}><Filter size={18} /></div>
-                  <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} style={{ width: "100%", padding: "0.8rem 1rem 0.8rem 3rem", background: "rgba(255,255,255,0.05)", border: "1px solid var(--border)", borderRadius: "16px", color: "var(--foreground)", appearance: "none", fontWeight: 600, cursor: "pointer", outline: "none" }} className="focus:border-[var(--primary)] transition-all">
+                <div style={{ position: "relative", flex: 1, minWidth: "180px" }}>
+                  <div style={{ position: "absolute", left: "1rem", top: "50%", transform: "translateY(-50%)", color: "var(--muted-foreground)", zIndex: 5, pointerEvents: "none" }}><Filter size={16} /></div>
+                  <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} style={{ width: "100%", padding: "0 1rem 0 2.8rem", height: "50px", background: "rgba(255,255,255,0.05)", border: "1px solid var(--border)", borderRadius: "12px", color: "var(--foreground)", appearance: "none", fontWeight: 600, cursor: "pointer", outline: "none" }}>
                     <option value="newest">{t("products.newest")}</option>
                     <option value="priceLowHigh">{t("products.priceLowHigh")}</option>
                     <option value="priceHighLow">{t("products.priceHighLow")}</option>
                   </select>
-                  <div style={{ position: "absolute", right: "1rem", top: "50%", transform: "translateY(-50%)", color: "var(--muted-foreground)", pointerEvents: "none" }}><ChevronDown size={18} /></div>
+                  <div style={{ position: "absolute", right: "1rem", top: "50%", transform: "translateY(-50%)", color: "var(--muted-foreground)", pointerEvents: "none" }}><ChevronDown size={16} /></div>
                 </div>
               </div>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", justifyContent: "center" }}>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", justifyContent: "center" }}>
                 {categories.map((cat) => (
-                  <button key={cat} onClick={() => setActiveCategory(cat)} style={{ padding: "0.6rem 1.2rem", borderRadius: "12px", fontSize: "0.9rem", fontWeight: 600, transition: "all 0.3s ease", background: activeCategory === cat ? "var(--primary)" : "rgba(255,255,255,0.05)", color: activeCategory === cat ? "white" : "var(--muted-foreground)", border: "1px solid", borderColor: activeCategory === cat ? "var(--primary)" : "var(--border)", cursor: "pointer", display: "flex", alignItems: "center", gap: "0.5rem" }} className={activeCategory === cat ? "" : "hover:bg-white/10"}>
-                    {cat === "Wishlist" && <Heart size={16} fill={activeCategory === "Wishlist" ? "white" : "none"} />}
+                  <button key={cat} onClick={() => setActiveCategory(cat)} style={{ padding: "0.5rem 1rem", borderRadius: "10px", fontSize: "0.85rem", fontWeight: 600, transition: "all 0.2s ease", background: activeCategory === cat ? "var(--primary)" : "rgba(255,255,255,0.05)", color: activeCategory === cat ? "white" : "var(--muted-foreground)", border: "1px solid", borderColor: activeCategory === cat ? "var(--primary)" : "var(--border)", cursor: "pointer", display: "flex", alignItems: "center", gap: "0.4rem" }}>
+                    {cat === "Wishlist" && <Heart size={14} fill={activeCategory === "Wishlist" ? "white" : "none"} />}
                     {cat === "Wishlist" ? t("products.wishlist") : cat}
-                    {cat === "Wishlist" && wishlist.length > 0 && <span style={{ background: activeCategory === "Wishlist" ? "rgba(255,255,255,0.3)" : "var(--primary)", color: "white", padding: "2px 6px", borderRadius: "6px", fontSize: "0.7rem" }}>{wishlist.length}</span>}
+                    {cat === "Wishlist" && wishlist.length > 0 && <span style={{ background: "rgba(255,255,255,0.2)", padding: "1px 6px", borderRadius: "4px", fontSize: "0.7rem" }}>{wishlist.length}</span>}
                   </button>
                 ))}
               </div>
             </div>
           </RevealOnScroll>
 
-          {/* Products Grid */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: "2.5rem" }}>
+          <div className="products-grid">
             {filteredProducts.length > 0 ? (
               filteredProducts.map((prod, idx) => (
                 <RevealOnScroll key={prod.id} delay={Math.min(idx * 50, 400)}>
@@ -427,100 +481,101 @@ export default function ProductsPage() {
                 </RevealOnScroll>
               ))
             ) : (
-              <div style={{ gridColumn: "1/-1", textAlign: "center", padding: "4rem", color: "var(--muted-foreground)" }}>
-                <Package size={48} style={{ margin: "0 auto 1rem", opacity: 0.5 }} />
-                <h3>{activeCategory === "Wishlist" ? t("products.noWishlist") : "No projects found matching your criteria."}</h3>
-                <button onClick={() => { setSearchQuery(""); setActiveCategory("All"); }} className="btn-outline" style={{ marginTop: "1.5rem" }}>Clear All Filters</button>
+              <div style={{ gridColumn: "1/-1", textAlign: "center", padding: "4rem 1rem", color: "var(--muted-foreground)" }}>
+                <Package size={48} style={{ margin: "0 auto 1rem", opacity: 0.3 }} />
+                <h3 style={{ fontSize: "1.25rem", fontWeight: 600 }}>{activeCategory === "Wishlist" ? t("products.noWishlist") : "No projects found."}</h3>
+                <button onClick={() => { setSearchQuery(""); setActiveCategory("All"); }} className="btn-outline" style={{ marginTop: "1.5rem", padding: "0.6rem 1.5rem" }}>Clear Filters</button>
               </div>
             )}
           </div>
         </div>
       </main>
 
-      {/* Compare Bar */}
       {compareList.length > 0 && (
-        <div style={{
-          position: "fixed", bottom: "1.5rem", left: "1.5rem", right: "1.5rem", maxWidth: "800px", margin: "0 auto",
-          background: "var(--glass-more)", backdropFilter: "blur(20px)", border: "1px solid var(--primary)",
-          borderRadius: "20px", padding: "1rem", zIndex: 500, display: "flex", alignItems: "center", justifyContent: "space-between",
-          boxShadow: "0 20px 50px rgba(0,0,0,0.5)", animation: "slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
+        <div className="compare-bar" style={{
+          position: "fixed", bottom: "2rem", left: "2rem", right: "2rem", maxWidth: "900px", margin: "0 auto",
+          background: "rgba(18, 18, 26, 0.95)", backdropFilter: "blur(20px)", border: "1px solid var(--primary)",
+          borderRadius: "24px", padding: "1rem 1.5rem", zIndex: 500, display: "flex", alignItems: "center", justifyContent: "space-between",
+          boxShadow: "0 20px 50px rgba(0,0,0,0.6)", animation: "slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
         }}>
           <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-            <div style={{ background: "var(--primary)", color: "white", padding: "0.5rem", borderRadius: "10px" }}>
-              <ArrowRightLeft size={20} />
+            <div style={{ background: "var(--primary)", color: "white", padding: "0.6rem", borderRadius: "12px" }}>
+              <ArrowRightLeft size={22} />
             </div>
             <div>
-              <h5 style={{ fontWeight: 700, margin: 0 }}>{t("products.compareList")}</h5>
-              <p style={{ fontSize: "0.75rem", color: "var(--muted-foreground)", margin: 0 }}>{compareList.length} / 3 projects selected</p>
+              <h5 style={{ fontWeight: 800, margin: 0, fontSize: "1rem" }}>{t("products.compareList")}</h5>
+              <p style={{ fontSize: "0.7rem", color: "var(--muted-foreground)", margin: 0, opacity: 0.8 }}>{compareList.length} of 3 projects selected</p>
             </div>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-            <div style={{ display: "flex", gap: "0.5rem" }}>
+          <div className="compare-actions" style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
+            <div style={{ display: "flex", gap: "0.75rem" }}>
               {compareProducts.map(p => (
                 <div key={p.id} style={{ position: "relative" }}>
-                  <img src={p.image} style={{ width: "40px", height: "40px", borderRadius: "8px", objectFit: "cover", border: "1px solid var(--border)" }} alt={p.title} />
-                  <button onClick={() => toggleCompare(p.id)} style={{ position: "absolute", top: "-5px", right: "-5px", background: "#ef4444", color: "white", border: "none", borderRadius: "50%", width: "16px", height: "16px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "10px", cursor: "pointer" }}><X size={10} /></button>
+                  <img src={p.image} style={{ width: "42px", height: "42px", borderRadius: "10px", objectFit: "cover", border: "1px solid var(--border)" }} alt={p.title} />
+                  <button onClick={() => toggleCompare(p.id)} style={{ position: "absolute", top: "-6px", right: "-6px", background: "#ef4444", color: "white", border: "none", borderRadius: "50%", width: "18px", height: "18px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "10px", cursor: "pointer", boxShadow: "0 2px 5px rgba(0,0,0,0.3)" }}><X size={12} /></button>
                 </div>
               ))}
             </div>
             
             <Dialog>
               <DialogTrigger asChild>
-                <button className="btn-primary" style={{ padding: "0.6rem 1.2rem", fontSize: "0.85rem" }}>{t("products.compare")}</button>
+                <button className="btn-primary" style={{ padding: "0.7rem 1.5rem", fontSize: "0.85rem", borderRadius: "12px" }}>{t("products.compare")}</button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[900px] bg-[var(--background)] border-[var(--border)] max-h-[85vh] overflow-y-auto">
-                <DialogHeader>
-                  <DialogTitle className="text-2xl font-bold">{t("products.compareList")}</DialogTitle>
-                </DialogHeader>
-                <div className="overflow-x-auto">
-                  <table className="w-full border-collapse mt-4">
-                    <thead>
-                      <tr>
-                        <th className="p-4 text-left border-b border-[var(--border)] w-1/4">Feature</th>
-                        {compareProducts.map(p => (
-                          <th key={p.id} className="p-4 text-center border-b border-[var(--border)] w-1/4">
-                            <img src={p.image} className="w-20 h-20 mx-auto rounded-lg object-cover mb-2" alt="" />
-                            <div className="text-sm font-bold">{p.title}</div>
-                          </th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td className="p-4 border-b border-[var(--border)] font-semibold text-sm">Price</td>
-                        {compareProducts.map(p => <td key={p.id} className="p-4 text-center border-b border-[var(--border)] text-[var(--primary)] font-bold">₹{p.price.toLocaleString()}</td>)}
-                      </tr>
-                      <tr>
-                        <td className="p-4 border-b border-[var(--border)] font-semibold text-sm">Category</td>
-                        {compareProducts.map(p => <td key={p.id} className="p-4 text-center border-b border-[var(--border)] text-xs">{p.category}</td>)}
-                      </tr>
-                      <tr>
-                        <td className="p-4 border-b border-[var(--border)] font-semibold text-sm">Tech Stack</td>
-                        {compareProducts.map(p => <td key={p.id} className="p-4 text-center border-b border-[var(--border)]">
-                          <div className="flex flex-wrap gap-1 justify-center">
-                            {p.tech.slice(0, 3).map(t => <span key={t} className="text-[10px] bg-[var(--glass)] px-2 py-0.5 rounded">{t}</span>)}
-                          </div>
-                        </td>)}
-                      </tr>
-                      <tr>
-                        <td className="p-4 border-b border-[var(--border)] font-semibold text-sm">Key Features</td>
-                        {compareProducts.map(p => <td key={p.id} className="p-4 text-center border-b border-[var(--border)]">
-                          <ul className="text-[10px] text-left list-disc list-inside">
-                            {p.features.slice(0, 3).map(f => <li key={f}>{f}</li>)}
-                          </ul>
-                        </td>)}
-                      </tr>
-                      <tr>
-                        <td className="p-4"></td>
-                        {compareProducts.map(p => (
-                          <td key={p.id} className="p-4 text-center">
-                            <a href={`https://wa.me/9325519485?text=Hi, I'm interested in ${p.title}`} target="_blank" rel="noopener noreferrer" className="btn-primary py-2 text-xs w-full block">Buy Now</a>
-                          </td>
-                        ))}
-                      </tr>
-                    </tbody>
-                  </table>
+              <DialogContent className="sm:max-w-[95vw] md:max-w-[850px] bg-[var(--background)] border-[var(--border)] max-h-[90vh] overflow-y-auto p-0 rounded-3xl">
+                <div style={{ padding: "1.5rem" }}>
+                  <DialogHeader style={{ marginBottom: "1.5rem" }}>
+                    <DialogTitle className="text-2xl font-bold tracking-tight">{t("products.compareList")}</DialogTitle>
+                  </DialogHeader>
+                  <div className="overflow-x-auto" style={{ borderRadius: "16px", border: "1px solid var(--border)" }}>
+                    <table className="w-full border-collapse">
+                      <thead>
+                        <tr style={{ background: "rgba(255,255,255,0.02)" }}>
+                          <th className="p-4 text-left border-b border-[var(--border)] text-xs font-bold uppercase tracking-wider text-muted-foreground">Specification</th>
+                          {compareProducts.map(p => (
+                            <th key={p.id} className="p-4 text-center border-b border-[var(--border)] min-w-[180px]">
+                              <img src={p.image} className="w-24 h-24 mx-auto rounded-xl object-cover mb-3 shadow-lg" alt="" />
+                              <div className="text-sm font-bold leading-tight">{p.title}</div>
+                            </th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="p-4 border-b border-[var(--border)] font-bold text-xs uppercase tracking-wider text-muted-foreground">Price</td>
+                          {compareProducts.map(p => <td key={p.id} className="p-4 text-center border-b border-[var(--border)] text-lg font-black text-[var(--primary)]">₹{p.price.toLocaleString()}</td>)}
+                        </tr>
+                        <tr>
+                          <td className="p-4 border-b border-[var(--border)] font-bold text-xs uppercase tracking-wider text-muted-foreground">Category</td>
+                          {compareProducts.map(p => <td key={p.id} className="p-4 text-center border-b border-[var(--border)] text-sm font-medium">{p.category}</td>)}
+                        </tr>
+                        <tr>
+                          <td className="p-4 border-b border-[var(--border)] font-bold text-xs uppercase tracking-wider text-muted-foreground">Tech Stack</td>
+                          {compareProducts.map(p => <td key={p.id} className="p-4 text-center border-b border-[var(--border)]">
+                            <div className="flex flex-wrap gap-1 justify-center">
+                              {p.tech.map(t => <span key={t} className="text-[9px] bg-[var(--glass)] border border-[var(--border)] px-2 py-0.5 rounded-md">{t}</span>)}
+                            </div>
+                          </td>)}
+                        </tr>
+                        <tr>
+                          <td className="p-4 border-b border-[var(--border)] font-bold text-xs uppercase tracking-wider text-muted-foreground">Core Features</td>
+                          {compareProducts.map(p => <td key={p.id} className="p-4 text-center border-b border-[var(--border)]">
+                            <ul className="text-[10px] text-left space-y-1 inline-block">
+                              {p.features.slice(0, 4).map(f => <li key={f} className="flex items-start gap-1"><Check size={10} className="text-primary shrink-0 mt-0.5" /> {f}</li>)}
+                            </ul>
+                          </td>)}
+                        </tr>
+                        <tr style={{ background: "rgba(255,255,255,0.01)" }}>
+                          <td className="p-4"></td>
+                          {compareProducts.map(p => (
+                            <td key={p.id} className="p-4 text-center">
+                              <a href={`https://wa.me/9325519485?text=Hi Abhishek, I want to discuss ${p.title}`} target="_blank" rel="noopener noreferrer" className="btn-primary py-2 text-xs w-full block text-center justify-center">Contact Seller</a>
+                            </td>
+                          ))}
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </DialogContent>
             </Dialog>
@@ -529,8 +584,10 @@ export default function ProductsPage() {
       )}
 
       <Toast message={toast.message} visible={toast.visible} onClose={() => setToast({ ...toast, visible: false })} />
-      <div className="orb orb-purple" style={{ width: "400px", height: "400px", top: "10%", left: "-100px" }} />
-      <div className="orb orb-cyan" style={{ width: "300px", height: "300px", bottom: "20%", right: "-50px" }} />
+      
+      <div className="orb orb-purple" style={{ width: "50vw", height: "50vw", top: "-10vw", left: "-20vw", opacity: 0.1 }} />
+      <div className="orb orb-cyan" style={{ width: "40vw", height: "40vw", bottom: "10vh", right: "-10vw", opacity: 0.05 }} />
+      
       <Footer />
     </div>
   )

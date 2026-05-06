@@ -99,22 +99,6 @@ function ProductCard({
   onToggleCompare: (id: number) => void,
   onShare: (product: any) => void
 }) {
-// ===================== PRODUCT CARD =====================
-function ProductCard({ 
-  product, 
-  isWishlisted, 
-  onToggleWishlist, 
-  isComparing, 
-  onToggleCompare,
-  onShare
-}: { 
-  product: any, 
-  isWishlisted: boolean, 
-  onToggleWishlist: (id: number) => void,
-  isComparing: boolean,
-  onToggleCompare: (id: number) => void,
-  onShare: (product: any) => void
-}) {
   const { t } = useLanguage()
   return (
     <Dialog>

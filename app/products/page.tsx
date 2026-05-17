@@ -6,7 +6,7 @@ import { Footer } from "@/components/footer"
 import { useLanguage } from "@/lib/language-context"
 import { 
   Check, ArrowLeft, ArrowRight, Package, Heart, Filter, 
-  ChevronDown, Share2, Copy, ArrowRightLeft, X, ExternalLink 
+  ChevronDown, Share2, Copy, ExternalLink 
 } from "lucide-react"
 import { RevealOnScroll } from "@/components/RevealOnScroll"
 import {
@@ -88,15 +88,11 @@ function ProductCard({
   product, 
   isWishlisted, 
   onToggleWishlist, 
-  isComparing, 
-  onToggleCompare,
   onShare
 }: { 
   product: any, 
   isWishlisted: boolean, 
   onToggleWishlist: (id: number) => void,
-  isComparing: boolean,
-  onToggleCompare: (id: number) => void,
   onShare: (product: any) => void
 }) {
   const { t } = useLanguage()
@@ -124,19 +120,6 @@ function ProductCard({
             title={isWishlisted ? t("products.removeFromWishlist") : t("products.addToWishlist")}
           >
             <Heart size={22} fill={isWishlisted ? "#ef4444" : "none"} />
-          </button>
-
-          <button 
-            onClick={(e) => { e.stopPropagation(); onToggleCompare(product.id); }}
-            style={{
-              background: isComparing ? "var(--primary)" : "rgba(0,0,0,0.4)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.15)",
-              width: "42px", height: "42px", borderRadius: "14px", display: "flex", alignItems: "center", justifyContent: "center",
-              color: "white", transition: "all 0.3s ease", cursor: "pointer"
-            }}
-            className="hover:scale-110 active:scale-90 hover:bg-black/60 shadow-lg"
-            title={t("products.compare")}
-          >
-            <ArrowRightLeft size={22} />
           </button>
         </div>
 
@@ -210,43 +193,43 @@ function ProductCard({
         </div>
       </div>
 
-      <DialogContent className="sm:max-w-[700px] bg-[var(--background)] border-[var(--border)] max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
+      <DialogContent className="w-[95vw] max-w-[700px] max-h-[85vh] sm:max-h-[90vh] bg-[var(--background)] border-[var(--border)] overflow-y-auto p-4 sm:p-6 rounded-2xl flex flex-col gap-0 shadow-2xl">
+        <DialogHeader className="mb-2 sm:mb-4 text-left">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-[#6c63ff] bg-[#6c63ff]/10 px-2 py-1 rounded">
+            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-[#6c63ff] bg-[#6c63ff]/10 px-2 py-1 rounded">
               {product.category}
             </span>
-            <span className="text-xl font-bold text-[var(--primary)]">
+            <span className="text-lg sm:text-xl font-bold text-[var(--primary)]">
               ₹{product.price.toLocaleString()}
             </span>
           </div>
-          <DialogTitle className="text-3xl font-bold text-[var(--foreground)]">
+          <DialogTitle className="text-xl sm:text-3xl font-bold text-[var(--foreground)] leading-tight text-left">
             {product.title}
           </DialogTitle>
-          <DialogDescription className="text-[var(--muted-foreground)] mt-2 line-height-relaxed">
+          <DialogDescription className="text-sm sm:text-base text-[var(--muted-foreground)] mt-2 line-height-relaxed text-left">
             {product.fullDescription}
           </DialogDescription>
         </DialogHeader>
 
-        <div className="grid gap-6 py-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid gap-4 sm:gap-6 py-2 sm:py-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             <div className="space-y-3">
-              <h4 className="text-sm font-semibold text-[var(--foreground)] border-b border-[var(--border)] pb-2">Technologies</h4>
+              <h4 className="text-xs sm:text-sm font-semibold text-[var(--foreground)] border-b border-[var(--border)] pb-2">Technologies</h4>
               <div className="flex flex-wrap gap-2">
                 {product.tech.map((t: string) => (
-                  <span key={t} className="text-xs bg-[var(--glass)] border border-[var(--border)] px-3 py-1.5 rounded-lg text-[var(--foreground)]">
+                  <span key={t} className="text-[10px] sm:text-xs bg-[var(--glass)] border border-[var(--border)] px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[var(--foreground)]">
                     {t}
                   </span>
                 ))}
               </div>
             </div>
             <div className="space-y-3">
-              <h4 className="text-sm font-semibold text-[var(--foreground)] border-b border-[var(--border)] pb-2">Key Features</h4>
+              <h4 className="text-xs sm:text-sm font-semibold text-[var(--foreground)] border-b border-[var(--border)] pb-2">Key Features</h4>
               <ul className="space-y-2">
                 {product.features.map((f: string) => (
-                  <li key={f} className="text-xs text-[var(--muted-foreground)] flex items-center gap-2">
-                    <div className="w-5 h-5 rounded-full bg-[var(--primary)]/10 flex items-center justify-center shrink-0">
-                      <Check size={12} className="text-[var(--primary)]" />
+                  <li key={f} className="text-[11px] sm:text-xs text-[var(--muted-foreground)] flex items-center gap-2">
+                    <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-[var(--primary)]/10 flex items-center justify-center shrink-0">
+                      <Check size={10} className="text-[var(--primary)] sm:w-3 sm:h-3 w-2.5 h-2.5" />
                     </div>
                     {f}
                   </li>
@@ -255,19 +238,19 @@ function ProductCard({
             </div>
           </div>
           
-          <div className="mt-4 pt-4 border-t border-[var(--border)] flex flex-col sm:flex-row gap-3">
+          <div className="mt-2 sm:mt-4 pt-4 border-t border-[var(--border)] flex flex-col sm:flex-row gap-3">
              <a 
                href={`https://wa.me/9325519485?text=${encodeURIComponent(`Hi Abhishek, I'm interested in purchasing the project: ${product.title} (Price: ₹${product.price})`)}`}
                target="_blank"
                rel="noopener noreferrer"
-               className="btn-primary flex-1 justify-center py-3 text-sm"
+               className="btn-primary flex-1 justify-center py-2.5 sm:py-3 text-xs sm:text-sm"
                style={{ background: "linear-gradient(135deg, #25D366 0%, #128C7E 100%)", borderColor: "#128C7E" }}
              >
                 Buy Now via WhatsApp
              </a>
              <button 
                 onClick={() => onShare(product)}
-                className="btn-outline flex-1 justify-center py-3 text-sm flex items-center gap-2"
+                className="btn-outline flex-1 justify-center py-2.5 sm:py-3 text-xs sm:text-sm flex items-center gap-2"
              >
                 <Share2 size={16} /> {t("products.share")}
              </button>
@@ -284,24 +267,20 @@ export default function ProductsPage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [sortBy, setSortBy] = useState("newest")
   const [wishlist, setWishlist] = useState<number[]>([])
-  const [compareList, setCompareList] = useState<number[]>([])
   const [isLoaded, setIsLoaded] = useState(false)
   const [toast, setToast] = useState({ message: "", visible: false })
 
   useEffect(() => {
     const savedWishlist = localStorage.getItem("products-wishlist")
-    const savedCompare = localStorage.getItem("products-compare")
     if (savedWishlist) setWishlist(JSON.parse(savedWishlist))
-    if (savedCompare) setCompareList(JSON.parse(savedCompare))
     setIsLoaded(true)
   }, [])
 
   useEffect(() => {
     if (isLoaded) {
       localStorage.setItem("products-wishlist", JSON.stringify(wishlist))
-      localStorage.setItem("products-compare", JSON.stringify(compareList))
     }
-  }, [wishlist, compareList, isLoaded])
+  }, [wishlist, isLoaded])
 
   const showToast = useCallback((msg: string) => {
     setToast({ message: msg, visible: true })
@@ -316,18 +295,7 @@ export default function ProductsPage() {
     })
   }
 
-  const toggleCompare = (id: number) => {
-    setCompareList(prev => {
-      const isRemoving = prev.includes(id)
-      if (!isRemoving && prev.length >= 3) {
-        showToast(t("products.compareLimit"))
-        return prev
-      }
-      const newList = isRemoving ? prev.filter(i => i !== id) : [...prev, id]
-      showToast(isRemoving ? t("products.removeFromCompare") : t("products.addToCompare"))
-      return newList
-    })
-  }
+
 
   const handleShare = (product: any) => {
     const url = window.location.href
@@ -352,7 +320,7 @@ export default function ProductsPage() {
       return 0
     })
 
-  const compareProducts = allProductsData.filter(p => compareList.includes(p.id))
+
 
   return (
     <div style={{ background: "var(--background)", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
@@ -369,18 +337,7 @@ export default function ProductsPage() {
             grid-template-columns: 1fr;
             gap: 1.5rem;
           }
-          .compare-bar {
-            bottom: 1rem !important;
-            left: 0.5rem !important;
-            right: 0.5rem !important;
-            padding: 0.75rem !important;
-            flex-direction: column;
-            gap: 1rem;
-          }
-          .compare-actions {
-            width: 100%;
-            justify-content: space-between;
-          }
+
           .product-card {
             height: auto !important;
             min-height: 450px;
@@ -458,8 +415,6 @@ export default function ProductsPage() {
                     product={prod} 
                     isWishlisted={wishlist.includes(prod.id)}
                     onToggleWishlist={toggleWishlist}
-                    isComparing={compareList.includes(prod.id)}
-                    onToggleCompare={toggleCompare}
                     onShare={handleShare}
                    />
                 </RevealOnScroll>
@@ -475,97 +430,7 @@ export default function ProductsPage() {
         </div>
       </main>
 
-      {compareList.length > 0 && (
-        <div className="compare-bar" style={{
-          position: "fixed", bottom: "2rem", left: "2rem", right: "2rem", maxWidth: "900px", margin: "0 auto",
-          background: "rgba(18, 18, 26, 0.95)", backdropFilter: "blur(20px)", border: "1px solid var(--primary)",
-          borderRadius: "24px", padding: "1rem 1.5rem", zIndex: 500, display: "flex", alignItems: "center", justifyContent: "space-between",
-          boxShadow: "0 20px 50px rgba(0,0,0,0.6)", animation: "slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
-        }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-            <div style={{ background: "var(--primary)", color: "white", padding: "0.6rem", borderRadius: "12px" }}>
-              <ArrowRightLeft size={22} />
-            </div>
-            <div>
-              <h5 style={{ fontWeight: 800, margin: 0, fontSize: "1rem" }}>{t("products.compareList")}</h5>
-              <p style={{ fontSize: "0.7rem", color: "var(--muted-foreground)", margin: 0, opacity: 0.8 }}>{compareList.length} of 3 projects selected</p>
-            </div>
-          </div>
 
-          <div className="compare-actions" style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
-            <div style={{ display: "flex", gap: "0.75rem" }}>
-              {compareProducts.map(p => (
-                <div key={p.id} style={{ position: "relative" }}>
-                  <img src={p.image} style={{ width: "42px", height: "42px", borderRadius: "10px", objectFit: "cover", border: "1px solid var(--border)" }} alt={p.title} />
-                  <button onClick={() => toggleCompare(p.id)} style={{ position: "absolute", top: "-6px", right: "-6px", background: "#ef4444", color: "white", border: "none", borderRadius: "50%", width: "18px", height: "18px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "10px", cursor: "pointer", boxShadow: "0 2px 5px rgba(0,0,0,0.3)" }}><X size={12} /></button>
-                </div>
-              ))}
-            </div>
-            
-            <Dialog>
-              <DialogTrigger asChild>
-                <button className="btn-primary" style={{ padding: "0.7rem 1.5rem", fontSize: "0.85rem", borderRadius: "12px" }}>{t("products.compare")}</button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[95vw] md:max-w-[850px] bg-[var(--background)] border-[var(--border)] max-h-[90vh] overflow-y-auto p-0 rounded-3xl">
-                <div style={{ padding: "1.5rem" }}>
-                  <DialogHeader style={{ marginBottom: "1.5rem" }}>
-                    <DialogTitle className="text-2xl font-bold tracking-tight">{t("products.compareList")}</DialogTitle>
-                  </DialogHeader>
-                  <div className="overflow-x-auto" style={{ borderRadius: "16px", border: "1px solid var(--border)" }}>
-                    <table className="w-full border-collapse">
-                      <thead>
-                        <tr style={{ background: "rgba(255,255,255,0.02)" }}>
-                          <th className="p-4 text-left border-b border-[var(--border)] text-xs font-bold uppercase tracking-wider text-muted-foreground">Specification</th>
-                          {compareProducts.map(p => (
-                            <th key={p.id} className="p-4 text-center border-b border-[var(--border)] min-w-[180px]">
-                              <img src={p.image} className="w-24 h-24 mx-auto rounded-xl object-cover mb-3 shadow-lg" alt="" />
-                              <div className="text-sm font-bold leading-tight">{p.title}</div>
-                            </th>
-                          ))}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td className="p-4 border-b border-[var(--border)] font-bold text-xs uppercase tracking-wider text-muted-foreground">Price</td>
-                          {compareProducts.map(p => <td key={p.id} className="p-4 text-center border-b border-[var(--border)] text-lg font-black text-[var(--primary)]">₹{p.price.toLocaleString()}</td>)}
-                        </tr>
-                        <tr>
-                          <td className="p-4 border-b border-[var(--border)] font-bold text-xs uppercase tracking-wider text-muted-foreground">Category</td>
-                          {compareProducts.map(p => <td key={p.id} className="p-4 text-center border-b border-[var(--border)] text-sm font-medium">{p.category}</td>)}
-                        </tr>
-                        <tr>
-                          <td className="p-4 border-b border-[var(--border)] font-bold text-xs uppercase tracking-wider text-muted-foreground">Tech Stack</td>
-                          {compareProducts.map(p => <td key={p.id} className="p-4 text-center border-b border-[var(--border)]">
-                            <div className="flex flex-wrap gap-1 justify-center">
-                              {p.tech.map(t => <span key={t} className="text-[9px] bg-[var(--glass)] border border-[var(--border)] px-2 py-0.5 rounded-md">{t}</span>)}
-                            </div>
-                          </td>)}
-                        </tr>
-                        <tr>
-                          <td className="p-4 border-b border-[var(--border)] font-bold text-xs uppercase tracking-wider text-muted-foreground">Core Features</td>
-                          {compareProducts.map(p => <td key={p.id} className="p-4 text-center border-b border-[var(--border)]">
-                            <ul className="text-[10px] text-left space-y-1 inline-block">
-                              {p.features.slice(0, 4).map(f => <li key={f} className="flex items-start gap-1"><Check size={10} className="text-primary shrink-0 mt-0.5" /> {f}</li>)}
-                            </ul>
-                          </td>)}
-                        </tr>
-                        <tr style={{ background: "rgba(255,255,255,0.01)" }}>
-                          <td className="p-4"></td>
-                          {compareProducts.map(p => (
-                            <td key={p.id} className="p-4 text-center">
-                              <a href={`https://wa.me/9325519485?text=Hi Abhishek, I want to discuss ${p.title}`} target="_blank" rel="noopener noreferrer" className="btn-primary py-2 text-xs w-full block text-center justify-center">Contact Seller</a>
-                            </td>
-                          ))}
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </DialogContent>
-            </Dialog>
-          </div>
-        </div>
-      )}
 
       <Toast message={toast.message} visible={toast.visible} onClose={() => setToast({ ...toast, visible: false })} />
       

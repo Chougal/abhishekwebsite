@@ -193,9 +193,9 @@ function ProductCard({
         </div>
       </div>
 
-      <DialogContent className="w-[95vw] max-w-[700px] max-h-[85vh] sm:max-h-[90vh] bg-[var(--background)] border-[var(--border)] overflow-y-auto p-4 sm:p-6 rounded-2xl flex flex-col gap-0 shadow-2xl">
-        <DialogHeader className="mb-2 sm:mb-4 text-left">
-          <div className="flex items-center justify-between mb-2">
+      <DialogContent className="w-[95vw] max-w-[700px] max-h-[85vh] sm:max-h-[90vh] bg-[var(--background)] border-[var(--border)] overflow-y-auto overflow-x-hidden p-4 sm:p-6 rounded-2xl flex flex-col gap-0 shadow-2xl">
+        <DialogHeader className="mb-2 sm:mb-4 text-left pr-6 sm:pr-8">
+          <div className="flex items-center justify-between mb-2 gap-4">
             <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-[#6c63ff] bg-[#6c63ff]/10 px-2 py-1 rounded">
               {product.category}
             </span>

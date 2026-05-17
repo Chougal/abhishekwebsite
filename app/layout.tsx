@@ -19,6 +19,9 @@ import { LanguageProvider } from "@/lib/language-context"
 import { ThemeProvider } from "@/components/theme-provider"
 import { FloatingWhatsApp } from "@/components/FloatingWhatsApp"
 import { VoiceAssistant } from "@/components/VoiceAssistant"
+import { CommandPalette } from "@/components/CommandPalette"
+import { LiveCursors } from "@/components/LiveCursors"
+import { AIChatbot } from "@/components/AIChatbot"
 
 export const metadata: Metadata = {
   title: "Abhishek Chougale | Full Stack Developer",
@@ -46,6 +49,9 @@ export default function RootLayout({
             {children}
             <VoiceAssistant />
             <FloatingWhatsApp />
+            <CommandPalette />
+            <LiveCursors />
+            <AIChatbot />
           </LanguageProvider>
         </ThemeProvider>
       </body>

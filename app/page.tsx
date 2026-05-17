@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { FloatingSocials } from "@/components/FloatingSocials"
+import { HeroModel } from "@/components/3d/HeroModel"
 import { RevealOnScroll } from "@/components/RevealOnScroll"
 import Link from "next/link"
 import { useLanguage } from "@/lib/language-context"
@@ -669,50 +670,12 @@ export default function HomePage() {
 
           <FloatingSocials />
 
-          {/* Right - Avatar */}
+          {/* Right - 3D Model */}
           <div
-            className="animate-float md:order-2 order-1"
-            style={{ position: "relative", flexShrink: 0, margin: "0 auto" }}
+            className="md:order-2 order-1"
+            style={{ position: "relative", flexShrink: 0, margin: "0 auto", width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}
           >
-            <div
-              className="animate-pulse-glow"
-              style={{
-                width: "clamp(220px, 40vw, 320px)",
-                height: "clamp(220px, 40vw, 320px)",
-                borderRadius: "50%",
-                background: "linear-gradient(135deg, #6c63ff 0%, #ff6584 50%, #43d9ad 100%)",
-                padding: "4px",
-              }}
-            >
-              <div
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  borderRadius: "50%",
-                  background: "var(--background)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "6rem",
-                  overflow: "hidden",
-                  position: "relative"
-                }}
-              >
-                <img 
-                  src="/abhi.jpeg" 
-                  alt="Abhishek Chougale" 
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none';
-                    const fallback = e.currentTarget.nextElementSibling as HTMLElement;
-                    if (fallback) fallback.style.display = 'flex';
-                  }}
-                />
-                <div style={{ display: 'none', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', position: 'absolute', background: "var(--card)" }}>
-                  👨‍💻
-                </div>
-              </div>
-            </div>
+            <HeroModel />
           </div>
         </div>
 
